@@ -11,4 +11,9 @@ def get_api(request):
     else:
         data = request.data
         address = data.get('address')
-        return JsonResponse(address)
+        output = data.get('output_format')
+        formatting = f'https://maps.googleapis.com/maps/api/geocode/json?address={address}&key=AIzaSyCOD3KvY2DDzEfel-NZ_LKIWXr86EF_EUw'
+        r = requests.get(formatting)
+        return JsonResponse(r, safe=False)
+
+
