@@ -1,12 +1,7 @@
-import xmltodict
-from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render
+from django.http import JsonResponse
 from rest_framework.decorators import api_view
 import requests
-from json2xml import json2xml
-import xml.dom.minidom
 from rest_framework.response import Response
-import json
 from dicttoxml import dicttoxml
 
 
