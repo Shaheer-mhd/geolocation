@@ -5,6 +5,9 @@ from rest_framework.decorators import api_view
 import requests
 from json2xml import json2xml
 import xml.dom.minidom
+from rest_framework.response import Response
+import json
+from dicttoxml import dicttoxml
 
 
 @api_view(['GET', 'POST'])
@@ -15,7 +18,7 @@ def get_api(request):
         data = request.data
         address = data.get('address')
         output = data.get('output_format')
-        formatting = f'https://maps.googleapis.com/maps/api/geocode/{output}?address={address}&key=AIzaSy' \
+        formatting = f'https://maps.googleapis.com/maps/api/geocode/json?address={address}&key=AIzaSy' \
                      f'COD3KvY2DDzEfel-NZ_LKIWXr86EF_EUw'
         response = requests.get(url=formatting)
         response = response.json()
@@ -26,6 +29,5 @@ def get_api(request):
         if output == 'json':
             return JsonResponse(data, safe=False)
         else:
-            xml_data = json2xml.Json2xml(data, wrapper="root", pretty=True, attr_type=False).to_xml()
-            return xml_data
-
+            xml_data = dicttoxml(data, attr_type=False)
+            return Response(xml_data, status=201)
